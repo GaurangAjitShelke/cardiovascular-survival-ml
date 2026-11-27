@@ -1,0 +1,12 @@
+Feature,Univariate C-index,Higher value means,Used in final models
+serum_creatinine,0.6667386920195909,higher risk,True
+age,0.6279170267934313,higher risk,True
+ejection_fraction,0.618217612599635,lower risk,True
+serum_sodium,0.596345913761644,lower risk,True
+high_blood_pressure,0.5562998175357726,higher risk,True
+anaemia,0.5454479976951887,higher risk,True
+creatinine_phosphokinase,0.5228080284260059,lower risk,True
+platelets,0.5097234226447709,lower risk,True
+smoking,0.506170171900509,higher risk,False
+sex,0.5047776817439739,higher risk,True
+diabetes,0.501968692979929,lower risk,True

@@ -1,0 +1,9 @@
+Group type,Group,Unique patients,Deaths,Folds with comparable pairs,Mean subgroup C-index
+Age group,65+,115,50,15,0.6986140837619252
+Age group,<65,184,46,15,0.7251985851440524
+EF group,40%+,117,23,15,0.7750204818685502
+EF group,<40%,182,73,15,0.7018366656229306
+Creatinine group,<=1.5,232,53,15,0.7051949862037442
+Creatinine group,>1.5,67,43,15,0.6627923787015491
+Sex group,0,105,34,15,0.7571926419750933
+Sex group,1,194,62,15,0.7314760598808147

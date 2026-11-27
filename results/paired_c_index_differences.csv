@@ -1,0 +1,6 @@
+Comparison (first minus second),Mean C-index difference,SD of difference,Folds where first is higher (of 15)
+Random Survival Forest - Cox (10 features),0.024559880445089246,0.04130166624931706,11
+Gradient Boosted Survival - Cox (10 features),0.020826019745149416,0.03902974177895394,9
+Random Survival Forest - Gradient Boosted Survival,0.003733860699939832,0.02883135759074595,8
+Cox (10 features) - Logistic Regression,0.0013941499726192778,0.01865496840464499,8
+Cox (10 features) - Cox (2 features),0.03690314808016737,0.05154569870159853,12
