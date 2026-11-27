@@ -1,80 +1,53 @@
-
-# Machine Learning Survival Models and Competing Risks in Cardiovascular Risk Prediction
+# An Evaluation of Machine Learning Survival Architectures and Competing Risk Frameworks in Cardiovascular Time-to-Event Projections
 
 ## Project Overview
-
-This project aims to evaluate different Machine Learning survival architectures and competing risk frameworks for predicting the timing of cardiovascular events.
-
-Traditional binary classification methods often fail to account for censored clinical data and the time at which an event occurs. This project explores survival analysis techniques to model time-to-event outcomes more effectively.
-
-## Problem Statement
-
-Predicting whether a cardiovascular event will occur is not always sufficient. Understanding when the event may occur is also important for clinical risk assessment.
-
-This project investigates survival-based approaches to address this challenge.
-
-## Objectives
-
-- Explore Machine Learning survival analysis techniques.
-- Evaluate different survival model architectures.
-- Investigate competing risk frameworks.
-- Analyse censored time-to-event clinical data.
-- Study the contribution of clinical biomarkers such as ejection fraction and serum creatinine.
-- Compare model performance using appropriate survival evaluation metrics.
-
-## Proposed Approach
-
-The project aims to use clinical data, data preprocessing, survival modelling and model evaluation to investigate cardiovascular time-to-event prediction.
+Traditional binary classifiers ignore when a heart failure patient dies and treat right-censored follow-up as survival. This project evaluates time-to-event survival architectures—comparing a Kaplan–Meier baseline, Cox Proportional Hazards models (`Cox-2` and `Cox-10`), a Logistic Regression benchmark, Random Survival Forest (`RSF`), and Gradient Boosted Survival (`GBS`)—using 5-fold stratified cross-validation repeated 3 times (15 outer splits, `seed=42`) with nested 3-fold hyperparameter tuning.
 
 ## Dataset
+* **Source:** [UCI Heart Failure Clinical Records Dataset](https://doi.org) (Chicco & Jurman, 2020)
+* **License:** CC BY 4.0
+* **Cohort:** 299 patients from Faisalabad, Pakistan (96 deaths / 32.1%, 203 right-censored / 67.9%, follow-up 4–285 days, median 115 days, 0 missing values).
+* **Features:** 10 selected clinical predictors (`smoking` dropped due to univariate C-index of 0.506 and correlation \(r = 0.45\) with `sex`).
 
-The project will use clinical cardiovascular data containing relevant patient information and biomarkers, including ejection fraction and serum creatinine.
+## Key Findings (Mean over 15 Test Folds)
 
-The dataset will be used to investigate time-to-event outcomes and censored observations. Dataset details and licensing information will be documented during implementation.
+| Model | C-index | Mean Time-Dependent AUC | Integrated Brier Score (30–180d) |
+| :--- | :---: | :---: | :---: |
+| **Random Survival Forest (RSF)** | **0.734 ± 0.063** | **0.753** | **0.157 ± 0.018** |
+| **Gradient Boosted Survival (GBS)** | 0.731 ± 0.059 | 0.747 | 0.159 ± 0.014 |
+| **Cox (10 features)** | 0.710 ± 0.070 | 0.725 | 0.161 ± 0.020 |
+| **Logistic Regression** | 0.708 ± 0.077 | 0.722 | n/a |
+| **Cox (2 features)** | 0.673 ± 0.083 | 0.666 | 0.172 ± 0.016 |
+| **Kaplan–Meier (Baseline)** | 0.500 ± 0.000 | 0.500 | 0.182 ± 0.012 |
+
+* **Top Predictors:** `ejection_fraction`, `serum_creatinine`, and `age` carried almost all predictive signal across both permutation importance and standardised Cox hazard ratios.
+* **Competing Risks:** Because the dataset records a single event type (`DEATH_EVENT`) without labelled causes of death, cumulative incidence reduces to \(1 - \text{Kaplan–Meier}\) and multi-event competing-risk models (Fine–Gray, DeepHit) could not be fitted.
 
 ## Project Structure
-
 ```text
 cardiovascular-survival-ml/
-│
-├── data/          # Dataset storage
-├── notebooks/     # Jupyter notebooks and experiments
-├── src/           # Python source code
-├── models/        # Trained machine learning models
-├── results/       # Evaluation results and visualisations
-├── report/        # Project documentation
-├── README.md      # Project overview
-├── requirements.txt
-└── .gitignore
+├── data/          # Raw and cleaned datasets + CV fold splits
+├── notebooks/     # Main Jupyter notebook with EDA, models, and evaluation
+├── models/        # Saved final Random Survival Forest model (.joblib)
+├── results/       # Evaluation tables and plots
+├── report/        # Final 5-page academic PDF report
+├── src/           # Auxiliary source scripts
+├── README.md      # Project documentation
+└── requirements.txt
 ```
 
-## Technologies Used
-
-- Python
-- NumPy
-- Pandas
-- Matplotlib
-- Seaborn
-- Scikit-learn
-- SciPy
-- Lifelines
-- Jupyter Notebook
-
-## Expected Outcomes
-
-- Comparison of different survival model architectures.
-- Evaluation of competing risk frameworks.
-- Better understanding of cardiovascular time-to-event prediction.
-- Identification of suitable approaches for handling censored clinical data.
-
-## Project Status
-
-Currently under development.
+## Setup & Installation
+```bash
+pip install -r requirements.txt
+```
+Core libraries: `Python`, `NumPy`, `Pandas`, `Matplotlib`, `Seaborn`, `Scikit-learn (1.9.1)`, `Scikit-survival (0.28.0)`, `Lifelines`, `Joblib`.
 
 ## Team Contributions
-
-This is a collaborative Machine Learning project. Team members will contribute to data preparation, model development, experimentation, evaluation and documentation.
+* **Akshitha Luxetti:** Data collection and cleaning, missing-value checks, EDA visualisations, and cross-validation fold setup.
+* **Riya Rajendra Naik:** Kaplan–Meier, Cox regression, and logistic regression models; proportional-hazards assumption checks and risk-factor analysis.
+* **Nivedita Divya Rajesh:** Random Survival Forest and Gradient Boosted Survival development, nested tuning, and model comparisons.
+* **Gaurang Ajit Shelke:** Report writing, literature review, dataset description, ethics section, bibliography, code testing, and runtime fixes.
 
 ## Disclaimer
+This project is an educational and retrospective modelling exercise, not a validated clinical decision-support tool.
 
-This project is intended for academic and research purposes only. It is not designed to replace professional medical diagnosis or clinical decision-making.
