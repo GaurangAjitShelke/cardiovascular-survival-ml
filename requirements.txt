@@ -2,7 +2,9 @@ numpy
 pandas
 matplotlib
 seaborn
-scikit-learn
 scipy
 jupyter
+joblib
 lifelines
+scikit-learn==1.9.1
+scikit-survival==0.28.0
